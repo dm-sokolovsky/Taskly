@@ -1,0 +1,53 @@
+.page { --workspace-width: min(1600px, calc(100% - 96px)); min-height: 100svh; display: flex; flex-direction: column; }
+.site-header { width: var(--workspace-width); margin: 0 auto; padding: 22px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e8df; gap: 24px; }
+.brand { display: inline-flex; align-items: center; color: #243c35; text-decoration: none; font-size: 27px; font-weight: 750; letter-spacing: -1.3px; }
+.brand-mark { display: grid; place-items: center; width: 30px; height: 30px; margin-right: 10px; background: #2f6652; color: white; border-radius: 9px; font-size: 20px; }
+.brand-dot { color: #5b8767; }
+.workspace { width: var(--workspace-width); margin: 24px auto 32px; flex: 1; }
+.task-card { background: #fff; border: 1px solid #e1e6dc; border-radius: 12px; box-shadow: 0 4px 6px #213c2e03, 0 16px 45px #213c2e05; overflow: hidden; }
+.card-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px 16px; }
+h1 { margin: 0; font-size: 20px; font-weight: 650; display: flex; align-items: center; gap: 10px; }
+.count-badge { display: inline-grid; place-items: center; min-width: 23px; height: 23px; padding: 0 6px; border-radius: 7px; font-size: 11px; background: #f0f3ec; color: #5c7158; }
+.add-form { display: flex; align-items: center; gap: 10px; background: #fafbf8; border: 1px solid #e0e6da; border-radius: 10px; margin: 0 24px; padding: 6px; }
+.add-form:focus-within { border-color: #678c72; box-shadow: 0 0 0 3px #678c7214; }
+.input-plus { color: #798773; font-size: 24px; margin-left: 8px; font-weight: 300; }
+.add-form input { flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; outline: none; color: #243c35; font-size: 15px; padding: 9px 0; }
+.add-form input::placeholder { color: #6f7b70; }
+.add-button { display: flex; align-items: center; gap: 13px; background: #2f6652; color: white; border: 0; border-radius: 7px; min-height: 40px; padding: 0 16px; font-size: 14px; font-weight: 600; }
+.add-button:hover:not(:disabled) { background: #24523f; }
+.add-button:disabled { background: #e7ece2; color: #687563; }
+.empty-state { text-align: center; padding: 32px 20px; }
+.empty-state p { margin: 0; color: #6e796e; font-size: 12px; line-height: 1.9; }
+.task-list { list-style: none; padding: 8px 24px; margin: 0; }
+.task-row { display: flex; align-items: center; gap: 12px; padding: 4px 0; border-bottom: 1px solid #edf0e9; }
+.task-row:last-child { border-bottom: 0; }
+.task-label { display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 0; cursor: pointer; padding: 7px 0; }
+.task-label input { width: 19px; height: 19px; margin: 1px 0 0; flex-shrink: 0; accent-color: #2f6652; cursor: pointer; }
+.task-text { font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.is-completed .task-text { text-decoration: line-through; color: #738071; }
+.delete-button { flex-shrink: 0; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 7px; color: #738071; background: transparent; }
+.delete-button:hover { color: #a83b39; background: #fcf0ed; }
+.card-footer { display: flex; justify-content: space-between; gap: 16px; padding: 12px 24px; background: #fcfdfb; border-top: 1px solid #edf0e9; color: #667366; font-size: 12px; }
+.card-footer strong { font-weight: 600; color: #355940; }
+.local-note { display: flex; align-items: center; justify-content: flex-start; gap: 7px; font-size: 12px; color: #6a7768; margin: 12px 0 0; }
+.storage-warning { margin: 16px 26px 0; padding: 12px; background: #fff5e5; color: #78531b; border-radius: 8px; font-size: 12px; line-height: 1.6; }
+
+@media (max-width: 1024px) {
+  .page { --workspace-width: calc(100% - 48px); }
+}
+
+@media (max-width: 600px) {
+  .page { --workspace-width: calc(100% - 32px); }
+  .site-header { padding: 18px 0; }
+  .workspace { margin-top: 20px; margin-bottom: 32px; }
+  .card-heading { padding: 18px 18px 14px; }
+  h1 { font-size: 18px; }
+  .add-form { margin: 0 16px; gap: 7px; }
+  .input-plus { display: none; }
+  .add-form input { padding-left: 7px; font-size: 16px; }
+  .add-button { padding: 0 10px; min-height: 42px; font-size: 12px; }
+  .add-button span { display: none; }
+  .task-list { padding-right: 18px; padding-left: 18px; }
+  .card-footer { padding-right: 18px; padding-left: 18px; }
+  .storage-warning { margin-right: 16px; margin-left: 16px; }
+}
