@@ -16,10 +16,19 @@ type TaskState = {
 const storageKey = 'taskly.tasks.v1'
 
 function readTasks(): TaskState {
+  let saved: string | null
   try {
-    const saved = localStorage.getItem(storageKey)
-    if (saved === null) return { tasks: [], warning: '' }
+    saved = localStorage.getItem(storageKey)
+  } catch {
+    return {
+      tasks: [],
+      warning: 'Не удалось загрузить задачи: хранилище браузера недоступно. Разрешите сайту сохранять данные в настройках браузера и обновите страницу.',
+    }
+  }
 
+  if (saved === null) return { tasks: [], warning: '' }
+
+  try {
     const data: unknown = JSON.parse(saved)
     const ids = new Set<string>()
     if (!Array.isArray(data) || !data.every((item: unknown) => {
@@ -39,7 +48,7 @@ function readTasks(): TaskState {
   } catch {
     return {
       tasks: [],
-      warning: 'Не удалось прочитать сохранённые задачи. Можно начать новый список.',
+      warning: 'Не удалось загрузить задачи. Сохранённые данные повреждены. Добавление новой задачи заменит старый список.',
     }
   }
 }
@@ -56,8 +65,11 @@ function App() {
     let warning = ''
     try {
       localStorage.setItem(storageKey, JSON.stringify(tasks))
-    } catch {
-      warning = 'Изменения не сохранены. Хранилище браузера недоступно или заполнено. Не закрывайте страницу.'
+    } catch (error) {
+      const reason = error instanceof DOMException && error.name === 'QuotaExceededError'
+        ? 'Хранилище браузера заполнено или его лимит недоступен.'
+        : 'Хранилище браузера недоступно. Проверьте разрешение на сохранение данных в настройках браузера.'
+      warning = `Не удалось сохранить изменения в браузере. ${reason} Изменения видны в списке, но могут потеряться после обновления или закрытия страницы.`
     }
     setState({ tasks, warning })
   }
