@@ -11,6 +11,7 @@ type Task = {
 type TaskState = {
   tasks: Task[]
   warning: string
+  savedValue?: string | null
 }
 
 const storageKey = 'taskly.tasks.v1'
@@ -26,7 +27,7 @@ function readTasks(): TaskState {
     }
   }
 
-  if (saved === null) return { tasks: [], warning: '' }
+  if (saved === null) return { tasks: [], warning: '', savedValue: saved }
 
   try {
     const data: unknown = JSON.parse(saved)
@@ -44,11 +45,13 @@ function readTasks(): TaskState {
     return {
       tasks: data.map(({ id, text, completed }: Task) => ({ id, text, completed })),
       warning: '',
+      savedValue: saved,
     }
   } catch {
     return {
       tasks: [],
       warning: 'Не удалось загрузить задачи. Сохранённые данные повреждены. Добавление новой задачи заменит старый список.',
+      savedValue: saved,
     }
   }
 }
@@ -63,15 +66,26 @@ function App() {
 
   function updateTasks(tasks: Task[]) {
     let warning = ''
+    let savedValue = state.savedValue
     try {
-      localStorage.setItem(storageKey, JSON.stringify(tasks))
+      if (savedValue === undefined) {
+        setState({ tasks, savedValue, warning: 'Изменения не сохранены: прежний список не удалось загрузить. Скопируйте новые задачи и обновите страницу, чтобы не потерять сохранённые данные.' })
+        return
+      }
+      if (localStorage.getItem(storageKey) !== savedValue) {
+        setState({ tasks, savedValue, warning: 'Список изменён в другой вкладке. Ваши изменения не сохранены. Скопируйте нужные задачи и обновите страницу, чтобы загрузить актуальный список.' })
+        return
+      }
+      const nextSavedValue = JSON.stringify(tasks)
+      localStorage.setItem(storageKey, nextSavedValue)
+      savedValue = nextSavedValue
     } catch (error) {
       const reason = error instanceof DOMException && error.name === 'QuotaExceededError'
         ? 'Хранилище браузера заполнено или его лимит недоступен.'
         : 'Хранилище браузера недоступно. Проверьте разрешение на сохранение данных в настройках браузера.'
       warning = `Не удалось сохранить изменения в браузере. ${reason} Изменения видны в списке, но могут потеряться после обновления или закрытия страницы.`
     }
-    setState({ tasks, warning })
+    setState({ tasks, warning, savedValue })
   }
 
   function addTask(event: FormEvent<HTMLFormElement>) {
