@@ -5,7 +5,9 @@
 .brand-dot { color: #5b8767; }
 .workspace { width: var(--workspace-width); margin: 24px auto 32px; flex: 1; }
 .task-card { background: #fff; border: 1px solid #e1e6dc; border-radius: 12px; box-shadow: 0 4px 6px #213c2e03, 0 16px 45px #213c2e05; overflow: hidden; }
-.card-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px 16px; }
+.card-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px 16px; }
+.delete-all-button { min-height: 40px; padding: 8px 12px; border: 1px solid #e8c6c3; border-radius: 7px; background: transparent; color: #a83b39; font-size: 13px; }
+.delete-all-button:hover { background: #fcf0ed; }
 h1 { margin: 0; font-size: 20px; font-weight: 650; display: flex; align-items: center; gap: 10px; }
 .count-badge { display: inline-grid; place-items: center; min-width: 23px; height: 23px; padding: 0 6px; border-radius: 7px; font-size: 11px; background: #f0f3ec; color: #5c7158; }
 .add-form { display: flex; align-items: center; gap: 10px; background: #fafbf8; border: 1px solid #e0e6da; border-radius: 10px; margin: 0 24px; padding: 6px; }

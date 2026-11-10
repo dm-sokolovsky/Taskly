@@ -113,6 +113,13 @@ function App() {
     else inputRef.current?.focus()
   }
 
+  function deleteAllTasks() {
+    if (!window.confirm('Удалить все задачи? Это действие нельзя отменить.')) return
+
+    updateTasks([])
+    inputRef.current?.focus()
+  }
+
   return (
     <div className="page">
       <header className="site-header">
@@ -126,6 +133,9 @@ function App() {
         <section className="task-card" aria-labelledby="tasks-heading">
           <div className="card-heading">
             <h1 id="tasks-heading">Мои задачи <span className="count-badge">{state.tasks.length}</span></h1>
+            {state.tasks.length > 0 ? (
+              <button className="delete-all-button" type="button" onClick={deleteAllTasks}>Удалить все задачи</button>
+            ) : null}
           </div>
 
           <form className="add-form" onSubmit={addTask}>
